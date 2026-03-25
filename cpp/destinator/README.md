@@ -1,6 +1,6 @@
 # Destinator
 
-A C++ program to simulate modular GPS trip logging, with odometer comparison, CSV export, and realistic travel mileage calculation via the haversine formula. Built for [Your Course Name Module #1].
+A C++ program to simulate modular GPS trip logging, with odometer comparison, CSV export, and realistic travel mileage calculation via the haversine formula. Built for CSE 310: Applied Programming.
 
 ---
 
@@ -101,4 +101,5 @@ For educational use only. [James Burdick/BYU Idaho].
 
 ## Contact
 
-Module #1 - Created by [James Burdick]  
+Module #1 - Created by [James Burdick] 
+Youtube Video - https://youtu.be/BPU_0eNh7_Q
