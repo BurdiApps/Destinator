@@ -1,0 +1,3 @@
+From,To,Odo Start,Odo End,Odo Miles,GPS Miles,Criteria,Date,Start Time,End Time,Explanation
+Home,Store,12345,12346,1,2.42,OVER,03-19-2026,03-24-2026 23:05:14,03-24-2026 23:05:14,"Took a shortcut"
+Home,Work,12346,12348,2,1.87,JUST RIGHT,03-19-2026,03-24-2026 23:06:28,03-24-2026 23:06:28,"On track"
