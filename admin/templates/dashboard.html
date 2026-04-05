@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | Destinator Admin{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+<!-- Stats cards -->
+<div class="stats-row">
+    <div class="stat-card">
+        <div class="stat-number">{{ total_trips }}</div>
+        <div class="stat-label">Total Trips</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ total_drivers }}</div>
+        <div class="stat-label">Drivers</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ total_miles }}</div>
+        <div class="stat-label">GPS Miles</div>
+    </div>
+    <div class="stat-card accent">
+        <div class="stat-number">
+            {% if total_trips > 0 %}{{ (total_miles / total_trips)|round(1) }}{% else %}0{% endif %}
+        </div>
+        <div class="stat-label">Avg Miles/Trip</div>
+    </div>
+</div>
+
+<!-- Recent trips table -->
+<div class="panel">
+    <div class="panel-header">
+        <h3>Recent Trips</h3>
+        <a href="{{ url_for('list_trips') }}" class="btn btn-sm">View All &rarr;</a>
+    </div>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Odo Miles</th>
+                    <th>GPS Miles</th>
+                    <th>Criteria</th>
+                    <th>Explanation</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trip in trips[:10] %}
+                <tr>
+                    <td>{{ trip.date }}</td>
+                    <td>{{ trip.from_location }}</td>
+                    <td>{{ trip.to_location }}</td>
+                    <td>{{ trip.odo_miles }}</td>
+                    <td>{{ trip.gps_miles }}</td>
+                    <td>
+                        <span class="badge badge-{{ trip.criteria|lower|replace(' ', '-') }}">
+                            {{ trip.criteria }}
+                        </span>
+                    </td>
+                    <td>{{ trip.explanation }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="7" class="empty-state">No trips yet. <a href="{{ url_for('import_csv') }}">Import CSV</a> or <a href="{{ url_for('add_trip') }}">add a trip</a>.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Drivers list -->
+<div class="panel">
+    <div class="panel-header">
+        <h3>Drivers</h3>
+        <a href="{{ url_for('add_driver') }}" class="btn btn-sm btn-accent">+ Add Driver</a>
+    </div>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Vehicle</th>
+                    <th>Driver ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for driver in drivers %}
+                <tr>
+                    <td>{{ driver.name }}</td>
+                    <td>{{ driver.vehicle }}</td>
+                    <td><code>{{ driver.id }}</code></td>
+                </tr>
+                {% else %}
+                <tr><td colspan="3" class="empty-state">No drivers registered.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
