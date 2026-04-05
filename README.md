@@ -59,7 +59,7 @@ The admin UI is a dark-themed, purple-accented dashboard with a persistent sideb
 
 ## Demo Video
 
-[Watch the demo video](YOUR_VIDEO_LINK_HERE)
+[Watch the demo video](https://youtu.be/kGcrsGr_Lv0)
 
 ## Setup & Installation
 
