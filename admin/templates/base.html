@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Destinator Admin{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'dark');</script>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <span class="brand-icon">&#9687;</span>
+            <h1>Destinator</h1>
+            <span class="brand-sub">Admin Panel</span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="{{ url_for('dashboard') }}" class="nav-item {% if request.endpoint == 'dashboard' %}active{% endif %}">
+                <span class="nav-icon">&#9632;</span> Dashboard
+            </a>
+            <a href="{{ url_for('list_trips') }}" class="nav-item {% if request.endpoint in ('list_trips','add_trip','edit_trip') %}active{% endif %}">
+                <span class="nav-icon">&#9654;</span> Trips
+            </a>
+            <a href="{{ url_for('list_drivers') }}" class="nav-item {% if request.endpoint in ('list_drivers','add_driver','edit_driver') %}active{% endif %}">
+                <span class="nav-icon">&#9786;</span> Drivers
+            </a>
+            <a href="{{ url_for('import_csv') }}" class="nav-item {% if request.endpoint == 'import_csv' %}active{% endif %}">
+                <span class="nav-icon">&#8679;</span> Import CSV
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <span>&copy; 2026 BurdiApps</span>
+        </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main-content">
+        <!-- Top bar -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <h2>{% block page_title %}Dashboard{% endblock %}</h2>
+            </div>
+            <div class="topbar-right">
+                <button class="theme-toggle" id="themeToggle" title="Toggle light/dark theme">
+                    <span id="themeIcon">&#9788;</span>
+                </button>
+                <span class="user-greeting">{{ current_user.firstname }}</span>
+                <a href="{{ url_for('logout') }}" class="btn btn-sm btn-logout">Logout</a>
+                <span class="env-badge">Firestore</span>
+                <span class="status-dot connected"></span>
+                <span class="status-text">Connected</span>
+            </div>
+        </header>
+
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="flash-container">
+            {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <!-- Page content -->
+        <section class="content">
+            {% block content %}{% endblock %}
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

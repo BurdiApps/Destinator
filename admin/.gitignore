@@ -1,0 +1,8 @@
+# Ignore Firebase service account key (secret)
+serviceAccountKey.json
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.env

@@ -1,0 +1,15 @@
+# Firebase key (secret — never commit)
+admin/serviceAccountKey.json
+
+# Python
+admin/venv/
+admin/__pycache__/
+**/__pycache__/
+*.pyc
+.env
+
+# One-off scripts
+admin/verify_firestore.py
+admin/sample_trips.csv
+admin/VIDEO_SCRIPT.txt
+admin/VIDEO_SCRIPT.html

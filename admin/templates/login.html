@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Destinator Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'dark');</script>
+</head>
+<body class="auth-page">
+    <div class="auth-container">
+        <div class="auth-brand">
+            <button class="theme-toggle" id="themeToggle" title="Toggle light/dark theme" style="position:absolute;top:16px;right:16px;">
+                <span id="themeIcon">&#9788;</span>
+            </button>
+            <span class="brand-icon">&#9687;</span>
+            <h1>Destinator</h1>
+            <span class="brand-sub">Admin Panel</span>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="flash-container">
+            {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        {% if errors %}
+        <ul class="auth-errors">
+            {% for error in errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <form class="auth-form" action="{{ url_for('login') }}" method="post">
+            <h2>Login</h2>
+
+            <div class="form-group">
+                <label for="account_email">Email Address</label>
+                <input type="email" id="account_email" name="account_email" required
+                       value="{{ account_email or '' }}" placeholder="you@example.com">
+            </div>
+
+            <div class="form-group">
+                <label for="account_password">Password</label>
+                <span class="password-requirements">
+                    Passwords must be at least 12 characters and contain 1 uppercase, 1 lowercase, 1 number, and 1 special character
+                </span>
+                <input type="password" id="account_password" name="account_password" required
+                       pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
+                       placeholder="Enter password">
+                <span class="pswd-toggle" id="pswdBtn">Show Password</span>
+            </div>
+
+            <button type="submit" class="btn btn-accent btn-full">Login</button>
+        </form>
+
+        <p class="auth-link">No account? <a href="{{ url_for('register') }}">Sign up</a></p>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}{{ action }} Trip | Destinator Admin{% endblock %}
+{% block page_title %}{{ action }} Trip{% endblock %}
+
+{% block content %}
+<div class="panel form-panel">
+    <form method="POST" class="crud-form">
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="driver_id">Driver</label>
+                <select name="driver_id" id="driver_id" required>
+                    {% for d in drivers %}
+                    <option value="{{ d.id }}" {% if trip and trip.driver_id == d.id %}selected{% endif %}>
+                        {{ d.name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="text" name="date" id="date" placeholder="MM-DD-YYYY"
+                       value="{{ trip.date if trip else '' }}" required>
+            </div>
+            <div class="form-group">
+                <label for="from_location">From</label>
+                <input type="text" name="from_location" id="from_location"
+                       value="{{ trip.from_location if trip else '' }}" required>
+            </div>
+            <div class="form-group">
+                <label for="to_location">To</label>
+                <input type="text" name="to_location" id="to_location"
+                       value="{{ trip.to_location if trip else '' }}" required>
+            </div>
+            <div class="form-group">
+                <label for="odo_start">Odo Start</label>
+                <input type="number" step="0.01" name="odo_start" id="odo_start"
+                       value="{{ trip.odo_start if trip else '' }}" required>
+            </div>
+            <div class="form-group">
+                <label for="odo_end">Odo End</label>
+                <input type="number" step="0.01" name="odo_end" id="odo_end"
+                       value="{{ trip.odo_end if trip else '' }}" required>
+            </div>
+            <div class="form-group">
+                <label for="gps_miles">GPS Miles</label>
+                <input type="number" step="0.01" name="gps_miles" id="gps_miles"
+                       value="{{ trip.gps_miles if trip else '' }}" required>
+            </div>
+            <div class="form-group">
+                <label for="criteria">Criteria</label>
+                <select name="criteria" id="criteria" required>
+                    <option value="JUST RIGHT" {% if trip and trip.criteria == 'JUST RIGHT' %}selected{% endif %}>JUST RIGHT</option>
+                    <option value="OVER" {% if trip and trip.criteria == 'OVER' %}selected{% endif %}>OVER</option>
+                    <option value="UNDER" {% if trip and trip.criteria == 'UNDER' %}selected{% endif %}>UNDER</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="start_time">Start Time</label>
+                <input type="text" name="start_time" id="start_time" placeholder="HH:MM:SS"
+                       value="{{ trip.start_time if trip else '' }}">
+            </div>
+            <div class="form-group">
+                <label for="end_time">End Time</label>
+                <input type="text" name="end_time" id="end_time" placeholder="HH:MM:SS"
+                       value="{{ trip.end_time if trip else '' }}">
+            </div>
+            <div class="form-group full-width">
+                <label for="explanation">Explanation</label>
+                <input type="text" name="explanation" id="explanation"
+                       value="{{ trip.explanation if trip else '' }}">
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-accent">{{ action }} Trip</button>
+            <a href="{{ url_for('list_trips') }}" class="btn">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

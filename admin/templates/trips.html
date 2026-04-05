@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Trips | Destinator Admin{% endblock %}
+{% block page_title %}Trips{% endblock %}
+
+{% block content %}
+<div class="toolbar">
+    <div class="toolbar-left">
+        <!-- Filter by driver -->
+        <form class="filter-form" method="GET" action="{{ url_for('list_trips') }}">
+            <label for="driver_id">Filter by Driver:</label>
+            <select name="driver_id" id="driver_id" onchange="this.form.submit()">
+                <option value="">All Drivers</option>
+                {% for d in drivers %}
+                <option value="{{ d.id }}" {% if active_filter == d.id %}selected{% endif %}>{{ d.name }}</option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+    <div class="toolbar-right">
+        <a href="{{ url_for('add_trip') }}" class="btn btn-accent">+ Add Trip</a>
+        <a href="{{ url_for('import_csv') }}" class="btn">Import CSV</a>
+    </div>
+</div>
+
+<div class="panel">
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Odo Start</th>
+                    <th>Odo End</th>
+                    <th>Odo Mi</th>
+                    <th>GPS Mi</th>
+                    <th>Criteria</th>
+                    <th>Explanation</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trip in trips %}
+                <tr>
+                    <td>{{ trip.date }}</td>
+                    <td>{{ trip.from_location }}</td>
+                    <td>{{ trip.to_location }}</td>
+                    <td>{{ trip.start_time }}</td>
+                    <td>{{ trip.end_time }}</td>
+                    <td>{{ trip.odo_start }}</td>
+                    <td>{{ trip.odo_end }}</td>
+                    <td>{{ trip.odo_miles }}</td>
+                    <td>{{ trip.gps_miles }}</td>
+                    <td>
+                        <span class="badge badge-{{ trip.criteria|lower|replace(' ', '-') }}">
+                            {{ trip.criteria }}
+                        </span>
+                    </td>
+                    <td>{{ trip.explanation }}</td>
+                    <td class="actions">
+                        <a href="{{ url_for('edit_trip', trip_id=trip.id) }}" class="btn btn-sm">Edit</a>
+                        <form method="POST" action="{{ url_for('delete_trip', trip_id=trip.id) }}" class="inline-form"
+                              onsubmit="return confirm('Delete this trip?')">
+                            <button type="submit" class="btn btn-sm btn-danger">Del</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="12" class="empty-state">No trips found. <a href="{{ url_for('add_trip') }}">Add one</a> or <a href="{{ url_for('import_csv') }}">import CSV</a>.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="result-count">{{ trips|length }} trip(s) displayed</div>
+{% endblock %}
