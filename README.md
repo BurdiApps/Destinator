@@ -59,13 +59,13 @@ The admin UI is a dark-themed, purple-accented dashboard with a persistent sideb
 
 ## Demo Video
 
-[Watch the demo video](YOUR_VIDEO_LINK_HERE)
+[Watch the demo video](https://youtu.be/kGcrsGr_Lv0)
 
 ## Setup & Installation
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/destinator.git
+   git clone https://github.com/BurdiApps/destinator.git
    cd destinator/admin
    ```
 
@@ -112,7 +112,7 @@ The admin UI is a dark-themed, purple-accented dashboard with a persistent sideb
 
 ## License
 
-For educational use only. [James Burdick / BYU-Idaho]
+For educational use only. James Burdick / BYU-Idaho
 
 ## Contact
 

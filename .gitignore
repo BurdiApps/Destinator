@@ -13,3 +13,22 @@ admin/verify_firestore.py
 admin/sample_trips.csv
 admin/VIDEO_SCRIPT.txt
 admin/VIDEO_SCRIPT.html
+
+# Xcode
+build/
+DerivedData/
+*.xcuserstate
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+xcuserdata/
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# macOS
+.DS_Store
