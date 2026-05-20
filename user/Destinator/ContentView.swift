@@ -65,3 +65,9 @@ struct ContentView: View {
         .animation(.easeInOut(duration: 0.25), value: showMenu)
     }
 }
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}

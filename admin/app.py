@@ -16,6 +16,8 @@ import os
 import re
 import csv
 import uuid
+import json
+import tempfile
 from datetime import datetime
 from functools import wraps
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session
@@ -33,30 +35,37 @@ app.secret_key = os.environ.get("FLASK_SECRET_KEY", "destinator-dev-key-change-i
 # account key for server-side access. If the key is missing, fall back
 # to demo mode with in-memory data so I can still test the UI.
 # ---------------------------------------------------------------------------
-SERVICE_ACCOUNT_PATH = os.environ.get(
-    "GOOGLE_APPLICATION_CREDENTIALS",
-    os.path.join(os.path.dirname(__file__), "serviceAccountKey.json"),
-)
+_firebase_json = os.environ.get("FIREBASE_CREDENTIALS")
 
-DEMO_MODE = not os.path.exists(SERVICE_ACCOUNT_PATH)
-
-if DEMO_MODE:
-    print("\n⚠  serviceAccountKey.json not found — running in DEMO MODE")
-    print("   Dashboard will show sample data. Add your Firebase key to go live.\n")
-    db = None
-    drivers_ref = None
-    trips_ref = None
-    users_ref = None
-else:
+if _firebase_json:
+    # Render: load from environment variable
     import firebase_admin
     from firebase_admin import credentials, firestore
     if not firebase_admin._apps:
-        cred = credentials.Certificate(SERVICE_ACCOUNT_PATH)
+        cred_dict = json.loads(_firebase_json)
+        cred = credentials.Certificate(cred_dict)
         firebase_admin.initialize_app(cred)
     db = firestore.client()
     drivers_ref = db.collection("drivers")
     trips_ref = db.collection("trips")
     users_ref = db.collection("users")
+    DEMO_MODE = False
+else:
+    SERVICE_ACCOUNT_PATH = os.path.join(os.path.dirname(__file__), "serviceAccountKey.json")
+    DEMO_MODE = not os.path.exists(SERVICE_ACCOUNT_PATH)
+    if DEMO_MODE:
+        print("\n⚠  Running in DEMO MODE\n")
+        db = drivers_ref = trips_ref = users_ref = None
+    else:
+        import firebase_admin
+        from firebase_admin import credentials, firestore
+        if not firebase_admin._apps:
+            cred = credentials.Certificate(SERVICE_ACCOUNT_PATH)
+            firebase_admin.initialize_app(cred)
+        db = firestore.client()
+        drivers_ref = db.collection("drivers")
+        trips_ref = db.collection("trips")
+        users_ref = db.collection("users")
 
 # ---------------------------------------------------------------------------
 # Flask-Login setup — the docs say to create a LoginManager, set
